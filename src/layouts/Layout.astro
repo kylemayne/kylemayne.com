@@ -16,6 +16,16 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const site = Astro.site ?? new URL('https://kylemayne.com/');
 const pageTitleFull = title === 'Kyle Mayne' ? title : `${title} — Kyle Mayne`;
 const ogImageURL = new URL('/images/kyle.png', site);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Kyle Mayne',
+  url: site.href,
+  image: ogImageURL.href,
+  jobTitle: 'Principal Product Designer and Design Lead',
+  sameAs: ['https://linkedin.com/in/kylemayne', 'https://twitter.com/kylemayne'],
+};
 ---
 
 <!doctype html>
@@ -40,6 +50,9 @@ const ogImageURL = new URL('/images/kyle.png', site);
     <meta name="twitter:title" content={pageTitleFull} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL.href} />
+    <script type="application/ld+json">
+      {JSON.stringify(jsonLd)}
+    </script>
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to content</a>

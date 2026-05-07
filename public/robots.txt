@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kylemayne.com/sitemap-index.xml
+
