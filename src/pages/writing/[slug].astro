@@ -1,0 +1,51 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getArticle, getNextArticleSlug } from '../../data/writing';
+
+export async function getStaticPaths() {
+  return [];
+}
+
+const { slug } = Astro.params;
+
+if (!slug) {
+  return Astro.redirect('/writing/');
+}
+
+const article = await getArticle(slug);
+
+if (!article) {
+  return Astro.redirect('/writing/');
+}
+
+const nextSlug = await getNextArticleSlug(slug);
+const description =
+  article.data.description ?? article.body.slice(0, 160) ?? '';
+
+const { Content } = await article.render();
+---
+
+<Layout title={article.data.title} description={description}>
+  <article class="article">
+    <header class="article-header">
+      <h1 class="article-title">{article.data.title}</h1>
+    </header>
+
+    <div class="article-body prose">
+      <Content />
+    </div>
+
+    <nav class="article-footer-nav" aria-label="Article">
+      <a class="article-nav-link article-nav-prev" href="/writing/">
+        ← All articles
+      </a>
+      {
+        nextSlug && (
+          <a class="article-nav-link article-nav-next" href={`/writing/${nextSlug}/`}>
+            Next article →
+          </a>
+        )
+      }
+    </nav>
+  </article>
+</Layout>

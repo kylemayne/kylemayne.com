@@ -1,0 +1,143 @@
+---
+const currentPath = Astro.url.pathname;
+
+function isCurrent(href: string) {
+  if (href === '/') return currentPath === '/';
+  return currentPath.startsWith(href);
+}
+
+const links = [
+  { href: '/',        label: 'Home'    },
+  { href: '/work',    label: 'Work'    },
+  { href: '/writing', label: 'Writing' },
+];
+---
+
+<div class="nav-dock">
+  <div id="nav-liquid-shell" class="nav-liquid">
+    <button
+      type="button"
+      id="nav-menu-toggle"
+      class="nav-toggle"
+      aria-expanded="false"
+      aria-controls="nav-liquid-links"
+      aria-label="Open navigation menu"
+    >
+      <span class="nav-toggle-label-open">Menu</span>
+      <span class="nav-toggle-label-close" hidden>Close</span>
+    </button>
+
+    <div class="nav-liquid-grow">
+      <div id="nav-liquid-links" class="nav-liquid-grow-inner">
+        <nav aria-label="Main navigation">
+          <ul class="nav-liquid-list">
+            {links.map(({ href, label }) => (
+              <li>
+                <a
+                  class="nav-liquid-link"
+                  href={href}
+                  aria-current={isCurrent(href) ? 'page' : undefined}
+                >
+                  {label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<noscript>
+  <div class="nav-noscript" role="navigation" aria-label="Main navigation">
+    <p class="nav-noscript-title">Navigation</p>
+    <ul class="nav-noscript-list">
+      {
+        links.map(({ href, label }) => (
+          <li>
+            <a href={href} aria-current={isCurrent(href) ? 'page' : undefined}>
+              {label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</noscript>
+
+<script>
+  const shell = document.getElementById('nav-liquid-shell') as HTMLDivElement | null;
+  const toggle = document.getElementById('nav-menu-toggle') as HTMLButtonElement | null;
+  const labelsOpen = toggle?.querySelector('.nav-toggle-label-open') as HTMLSpanElement | null;
+  const labelsClose = toggle?.querySelector('.nav-toggle-label-close') as HTMLSpanElement | null;
+  const panel = document.getElementById('nav-liquid-links') as HTMLElement | null;
+
+  if (shell && toggle && labelsOpen && labelsClose && panel) {
+    function trapFocusables(): HTMLElement[] {
+      return [toggle, ...panel.querySelectorAll<HTMLAnchorElement>('a.nav-liquid-link')];
+    }
+
+    function setExpanded(open: boolean) {
+      shell.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      labelsOpen.toggleAttribute('hidden', open);
+      labelsClose.toggleAttribute('hidden', !open);
+      panel.setAttribute('aria-hidden', open ? 'false' : 'true');
+      panel.inert = !open;
+      toggle.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+    }
+
+    function isOpen() {
+      return shell.classList.contains('is-open');
+    }
+
+    labelsClose.hidden = true;
+    labelsOpen.hidden = false;
+    panel.setAttribute('aria-hidden', 'true');
+    panel.inert = true;
+    toggle.setAttribute('aria-label', 'Open navigation menu');
+
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const opening = !isOpen();
+      setExpanded(opening);
+      if (!opening) toggle.focus();
+    });
+
+    panel.querySelectorAll<HTMLAnchorElement>('a.nav-liquid-link').forEach((link) => {
+      link.addEventListener('click', () => setExpanded(false));
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!isOpen()) return;
+
+      if (e.key === 'Escape') {
+        setExpanded(false);
+        toggle.focus();
+        return;
+      }
+
+      if (e.key !== 'Tab') return;
+
+      const list = trapFocusables();
+      if (!list.length) return;
+      const first = list[0];
+      const last = list[list.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!isOpen()) return;
+      const target = e.target as Node;
+      if (!shell.contains(target)) setExpanded(false);
+    });
+  }
+</script>
