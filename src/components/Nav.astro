@@ -74,6 +74,19 @@ const links = [
   const panel = document.getElementById('nav-liquid-links') as HTMLElement | null;
 
   if (shell && toggle && labelsOpen && labelsClose && panel) {
+    function getReducedMotion() {
+      return window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false;
+    }
+
+    function setPanelMaxHeight(px: number) {
+      panel.style.maxHeight = `${Math.max(0, Math.ceil(px))}px`;
+    }
+
+    function syncPanelHeight() {
+      if (!shell.classList.contains('is-open')) return;
+      setPanelMaxHeight(panel.scrollHeight);
+    }
+
     function trapFocusables(): HTMLElement[] {
       return [toggle, ...panel.querySelectorAll<HTMLAnchorElement>('a.nav-liquid-link')];
     }
@@ -86,6 +99,25 @@ const links = [
       panel.setAttribute('aria-hidden', open ? 'false' : 'true');
       panel.inert = !open;
       toggle.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+
+      if (getReducedMotion()) {
+        setPanelMaxHeight(open ? panel.scrollHeight : 0);
+        return;
+      }
+
+      if (open) {
+        // Ensure we animate from 0 → measured height.
+        setPanelMaxHeight(0);
+        requestAnimationFrame(() => {
+          setPanelMaxHeight(panel.scrollHeight);
+        });
+      } else {
+        // Ensure we animate from current height → 0.
+        setPanelMaxHeight(panel.scrollHeight);
+        requestAnimationFrame(() => {
+          setPanelMaxHeight(0);
+        });
+      }
     }
 
     function isOpen() {
@@ -97,6 +129,7 @@ const links = [
     panel.setAttribute('aria-hidden', 'true');
     panel.inert = true;
     toggle.setAttribute('aria-label', 'Open navigation menu');
+    setPanelMaxHeight(0);
 
     toggle.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -138,6 +171,11 @@ const links = [
       if (!isOpen()) return;
       const target = e.target as Node;
       if (!shell.contains(target)) setExpanded(false);
+    });
+
+    window.addEventListener('resize', () => {
+      // Keep measured height correct after viewport/font changes.
+      syncPanelHeight();
     });
   }
 </script>

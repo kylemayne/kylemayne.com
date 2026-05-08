@@ -9,12 +9,12 @@ interface Props {
 
 const {
   title,
-  description = 'Kyle Mayne — Principal Product Designer and Design Lead',
+  description = 'Kyle Mayne: Principal Product Designer and Design Lead',
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const site = Astro.site ?? new URL('https://kylemayne.com/');
-const pageTitleFull = title === 'Kyle Mayne' ? title : `${title} — Kyle Mayne`;
+const pageTitleFull = title === 'Kyle Mayne' ? title : `${title} - Kyle Mayne`;
 const ogImageURL = new URL('/images/kyle.png', site);
 const isHome = Astro.url.pathname === '/';
 

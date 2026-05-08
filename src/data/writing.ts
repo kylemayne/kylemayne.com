@@ -2,7 +2,7 @@ import { type CollectionEntry, getCollection, getEntryBySlug } from 'astro:conte
 
 export type WritingEntry = CollectionEntry<'writing'>;
 
-/** Newest first — used for ordering and “next article” chain */
+/** Newest first - used for ordering and “next article” chain */
 export async function writingSortedForIndex(): Promise<WritingEntry[]> {
   const entries = await getCollection('writing');
 
