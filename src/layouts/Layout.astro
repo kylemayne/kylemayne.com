@@ -47,10 +47,13 @@ const jsonLd = {
     <meta property="og:title" content={pageTitleFull} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImageURL.href} />
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:image:width" content="1024" />
+    <meta property="og:image:height" content="1024" />
+    <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={pageTitleFull} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL.href} />
+    <meta name="twitter:image:alt" content="Portrait of Kyle Mayne" />
     {
       isHome && (
         <link rel="preload" as="image" href="/images/kyle.png" fetchpriority="high" />

@@ -23,8 +23,8 @@ const links = [
       aria-controls="nav-liquid-links"
       aria-label="Open navigation menu"
     >
-      <span class="nav-toggle-label-open">Menu</span>
-      <span class="nav-toggle-label-close" hidden>Close</span>
+      <span class="nav-toggle-label-open" aria-hidden="false">Menu</span>
+      <span class="nav-toggle-label-close" aria-hidden="true">Close</span>
     </button>
 
     <div class="nav-liquid-grow">
@@ -74,19 +74,6 @@ const links = [
   const panel = document.getElementById('nav-liquid-links') as HTMLElement | null;
 
   if (shell && toggle && labelsOpen && labelsClose && panel) {
-    function getReducedMotion() {
-      return window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false;
-    }
-
-    function setPanelMaxHeight(px: number) {
-      panel.style.maxHeight = `${Math.max(0, Math.ceil(px))}px`;
-    }
-
-    function syncPanelHeight() {
-      if (!shell.classList.contains('is-open')) return;
-      setPanelMaxHeight(panel.scrollHeight);
-    }
-
     function trapFocusables(): HTMLElement[] {
       return [toggle, ...panel.querySelectorAll<HTMLAnchorElement>('a.nav-liquid-link')];
     }
@@ -94,42 +81,21 @@ const links = [
     function setExpanded(open: boolean) {
       shell.classList.toggle('is-open', open);
       toggle.setAttribute('aria-expanded', String(open));
-      labelsOpen.toggleAttribute('hidden', open);
-      labelsClose.toggleAttribute('hidden', !open);
+      // Cross-fade labels via aria-hidden so both remain in layout for the transition.
+      labelsOpen.setAttribute('aria-hidden', open ? 'true' : 'false');
+      labelsClose.setAttribute('aria-hidden', open ? 'false' : 'true');
       panel.setAttribute('aria-hidden', open ? 'false' : 'true');
       panel.inert = !open;
       toggle.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
-
-      if (getReducedMotion()) {
-        setPanelMaxHeight(open ? panel.scrollHeight : 0);
-        return;
-      }
-
-      if (open) {
-        // Ensure we animate from 0 → measured height.
-        setPanelMaxHeight(0);
-        requestAnimationFrame(() => {
-          setPanelMaxHeight(panel.scrollHeight);
-        });
-      } else {
-        // Ensure we animate from current height → 0.
-        setPanelMaxHeight(panel.scrollHeight);
-        requestAnimationFrame(() => {
-          setPanelMaxHeight(0);
-        });
-      }
     }
 
     function isOpen() {
       return shell.classList.contains('is-open');
     }
 
-    labelsClose.hidden = true;
-    labelsOpen.hidden = false;
     panel.setAttribute('aria-hidden', 'true');
     panel.inert = true;
     toggle.setAttribute('aria-label', 'Open navigation menu');
-    setPanelMaxHeight(0);
 
     toggle.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -171,11 +137,6 @@ const links = [
       if (!isOpen()) return;
       const target = e.target as Node;
       if (!shell.contains(target)) setExpanded(false);
-    });
-
-    window.addEventListener('resize', () => {
-      // Keep measured height correct after viewport/font changes.
-      syncPanelHeight();
     });
   }
 </script>
