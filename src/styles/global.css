@@ -699,10 +699,24 @@ a:hover {
   font-size: var(--size-sm);
 }
 
-@media (max-width: 480px) {
+/* Stack past roles: company → dates → title (matches DOM order) */
+@media (max-width: 600px) {
   .role-list li {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     gap: var(--space-1);
+    padding: var(--space-4) 0;
+  }
+
+  .role-org {
+    font-weight: 500;
+    font-size: var(--size-base);
+    line-height: var(--line-tight);
+  }
+
+  .role-title {
+    line-height: var(--line-normal);
   }
 }
 
