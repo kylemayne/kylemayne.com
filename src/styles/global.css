@@ -95,6 +95,13 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Larger base on phones: improves reading without resizing desktop/tablet landscape */
+@media (max-width: 600px) {
+  html {
+    font-size: 20px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -278,6 +285,57 @@ a:hover {
   scroll-margin-top: calc(
     var(--work-writing-padding-top) + env(safe-area-inset-top, 0px) + 12px
   );
+}
+
+/* Phones: dock nav bottom for thumb reach; restore normal top rhythm on interior pages */
+@media (max-width: 600px) {
+  :root {
+    --nav-dock-mobile-bottom-gap: 20px;
+    /* Reserve space for fixed pill above home indicator (+ shell height) */
+    --nav-mobile-bottom-page-pad: calc(
+      var(--space-12) + env(safe-area-inset-bottom, 0px) +
+        var(--nav-dock-mobile-bottom-gap) + var(--nav-toggle-min-height) +
+        var(--space-8)
+    );
+    --nav-mobile-scroll-top-offset: calc(
+      var(--space-12) + env(safe-area-inset-top, 0px) + var(--space-4)
+    );
+  }
+
+  .site-wrapper {
+    padding-bottom: var(--nav-mobile-bottom-page-pad);
+  }
+
+  /*
+   * Home: avoid min-height + flex:1 stretching main—creates “dead air” above bottom padding.
+   * Tighter bottom pad than interior pages: little scroll, just clear the fixed Menu pill.
+   */
+  .site-wrapper:has(.home-container) {
+    min-height: unset;
+    padding-top: calc(var(--space-6) + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(
+      env(safe-area-inset-bottom, 0px) + var(--nav-dock-mobile-bottom-gap) +
+        var(--nav-toggle-min-height) + var(--space-6)
+    );
+  }
+
+  .site-wrapper:has(.home-container) .site-content {
+    flex: 0 0 auto;
+  }
+
+  .site-content {
+    scroll-margin-top: var(--nav-mobile-scroll-top-offset);
+  }
+
+  .site-wrapper:has(.article),
+  .site-wrapper:has(.site-content > h1:first-child) {
+    padding-top: calc(var(--space-12) + env(safe-area-inset-top, 0px));
+  }
+
+  .site-wrapper:has(.article) .site-content,
+  .site-wrapper:has(.site-content > h1:first-child) .site-content {
+    scroll-margin-top: var(--nav-mobile-scroll-top-offset);
+  }
 }
 
 /* ─── Nav: single liquid shell (pill → card) ───────────────── */
@@ -632,19 +690,38 @@ a:hover {
 
 @media (max-width: 600px) {
   .nav-dock {
-    top: calc(20px + env(safe-area-inset-top, 0px));
+    top: auto;
+    bottom: calc(
+      var(--nav-dock-mobile-bottom-gap) + env(safe-area-inset-bottom, 0px)
+    );
     left: calc(
       clamp(var(--space-6), 5vw, var(--space-16)) + env(safe-area-inset-left, 0px)
     );
   }
 
-  /* Easier thumbs: larger vertical tap rows in the drawer */
-  .nav-liquid-list {
-    gap: var(--space-1);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+  .nav-liquid {
+    flex-direction: column-reverse;
+    margin-top: 0;
+
+    box-shadow:
+      inset 0 0.5px 0 rgba(255, 255, 255, 0.9),
+      inset 0 -0.5px 0 rgba(0, 0, 0, 0.04),
+      0 -6px 20px rgba(0, 0, 0, 0.08),
+      0 -14px 32px rgba(0, 0, 0, 0.06),
+      0 -10px 28px rgba(0, 0, 0, 0.1);
   }
 
+  .nav-liquid-grow-inner {
+    transform: translate3d(0, 4px, 0);
+  }
+
+  .nav-liquid.is-open .nav-liquid-grow-inner {
+    transform: translate3d(0, 0, 0);
+  }
+
+  /* Drawer motion: slides up toward expanded links (pill sits bottom) */
   .nav-liquid-link {
+    transform: translate3d(0, 6px, 0);
     display: inline-flex;
     align-items: center;
     min-height: 44px;
@@ -652,8 +729,52 @@ a:hover {
     box-sizing: border-box;
   }
 
+  .nav-liquid.is-open .nav-liquid-link {
+    transform: translate3d(0, 0, 0);
+  }
+
+  /* Easier thumbs: larger vertical tap rows in the drawer */
+  .nav-liquid-list {
+    gap: var(--space-1);
+    padding-bottom: 0;
+  }
+
   .nav-liquid-grow-inner nav {
-    padding-bottom: calc(var(--space-2) + env(safe-area-inset-bottom, 0px));
+    padding-top: var(--space-3);
+    padding-bottom: var(--space-3);
+  }
+}
+
+@media (max-width: 600px) and (prefers-reduced-motion: reduce) {
+  .nav-liquid-grow-inner {
+    transform: none;
+  }
+
+  .nav-liquid.is-open .nav-liquid-grow-inner {
+    transform: none;
+  }
+
+  .nav-liquid-link {
+    transform: none;
+  }
+
+  .nav-liquid.is-open .nav-liquid-link {
+    transform: none;
+  }
+}
+
+@media (max-width: 600px) and (prefers-color-scheme: dark) {
+  .nav-liquid {
+    box-shadow:
+      inset 0 0.5px 0 rgba(255, 255, 255, 0.14),
+      inset 0 -0.5px 0 rgba(0, 0, 0, 0.25),
+      0 -8px 20px rgba(0, 0, 0, 0.45),
+      0 -16px 40px rgba(0, 0, 0, 0.3),
+      0 -12px 32px rgba(0, 0, 0, 0.5);
+  }
+
+  .nav-liquid:hover {
+    background: rgba(28, 28, 26, 0.82);
   }
 }
 
@@ -687,8 +808,13 @@ a:hover {
 
 @media (max-width: 600px) {
   .nav-noscript {
+    top: auto;
     left: calc(
       clamp(var(--space-6), 5vw, var(--space-16)) + env(safe-area-inset-left, 0px)
+    );
+    bottom: calc(
+      env(safe-area-inset-bottom, 0px) + var(--nav-dock-mobile-bottom-gap) +
+        var(--nav-toggle-min-height) + var(--space-10)
     );
   }
 }
@@ -1306,7 +1432,7 @@ a:hover {
   .home-hero {
     flex-direction: column;
     gap: var(--space-8);
-    margin-top: calc(var(--space-12) + var(--space-2));
+    margin-top: 0;
     margin-bottom: var(--space-12);
   }
 
@@ -1315,16 +1441,16 @@ a:hover {
   }
 
   .home-hero-image {
-    width: 180px;
+    width: clamp(180px, 50vw, 220px);
     max-width: 100%;
   }
 
   .home-hero-text h1 {
-    font-size: clamp(1.5rem, 6.5vw, 2rem);
+    font-size: clamp(1.5625rem, 6.75vw, 2.0625rem);
   }
 
   .home-hero-text .prose p {
-    font-size: clamp(1rem, 4.2vw, 1.375rem);
+    font-size: clamp(1rem, 4.55vw, 1.4375rem);
   }
 
   /* .intro-links sizing handled later (avoid duplicates) */
@@ -1370,7 +1496,7 @@ a:hover {
 @media (max-width: 600px) {
   /* Ensure social links match mobile paragraph scale */
   .intro-links {
-    font-size: clamp(1rem, 4.2vw, 1.375rem);
+    font-size: clamp(1rem, 4.55vw, 1.4375rem);
   }
 }
 
