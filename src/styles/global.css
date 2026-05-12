@@ -1115,11 +1115,12 @@ a:hover {
 }
 
 .article-header {
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-6);
 }
 
 .article-title {
-  font-size: clamp(var(--size-xl), 4vw, var(--size-3xl));
+  /* Floor at 2xl so mobile titles stay above in-article h2 (xl), not body-sized */
+  font-size: clamp(var(--size-2xl), 5vw, var(--size-3xl));
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: var(--line-tight);
@@ -1135,7 +1136,7 @@ a:hover {
   flex-wrap: wrap;
   align-items: center;
   gap: var(--space-3);
-  margin-top: var(--space-4);
+  margin-top: var(--space-3);
   font-size: var(--size-sm);
   color: var(--fg-muted);
   font-variant-numeric: tabular-nums;
@@ -1143,6 +1144,152 @@ a:hover {
 
 .article-body.prose p:first-child {
   margin-top: 0;
+}
+
+/* Long-form article rhythm (writing posts): headings, lists, quotes, rules */
+.article-body.prose > h2 {
+  margin-top: var(--space-12);
+  margin-bottom: var(--space-6);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--fg);
+}
+
+.article-body.prose > h2:first-child {
+  margin-top: 0;
+}
+
+.article-body.prose > h3 {
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-3);
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.article-body.prose > h2 + p,
+.article-body.prose > h3 + p {
+  margin-top: 0;
+}
+
+/* Paragraphs after non-paragraph blocks (p + p is handled by .prose) */
+.article-body.prose > :is(ul, ol, blockquote, hr) + p {
+  margin-top: var(--space-6);
+}
+
+.article-body.prose > hr + h2 {
+  margin-top: var(--space-8);
+}
+
+/* Lead-in lines like “Here’s what makes it work:” before a list or quote */
+.article-body.prose > p:has(> strong:only-child) {
+  margin-bottom: var(--space-2);
+}
+
+.article-body.prose > ul,
+.article-body.prose > ol {
+  margin: var(--space-4) 0 var(--space-6);
+  padding-left: 1.35em;
+}
+
+.article-body.prose > ul {
+  list-style: disc;
+}
+
+.article-body.prose > ol {
+  list-style: decimal;
+}
+
+.article-body.prose > p:has(> strong:only-child) + ul,
+.article-body.prose > p:has(> strong:only-child) + ol {
+  margin-top: var(--space-3);
+}
+
+.article-body.prose li {
+  margin-top: var(--space-3);
+  line-height: var(--line-loose);
+  color: var(--fg-body);
+}
+
+.article-body.prose li:first-child {
+  margin-top: 0;
+}
+
+.article-body.prose li > p {
+  margin-top: var(--space-3);
+}
+
+.article-body.prose li > p:first-child {
+  margin-top: 0;
+}
+
+.article-body.prose ul ul,
+.article-body.prose ol ol,
+.article-body.prose li > ul,
+.article-body.prose li > ol {
+  margin: var(--space-3) 0 var(--space-2);
+}
+
+.article-body.prose blockquote {
+  margin: var(--space-8) 0;
+  padding: var(--space-4) 0 var(--space-4) var(--space-6);
+  border-left: 3px solid var(--border);
+  color: var(--fg-muted);
+}
+
+.article-body.prose blockquote p {
+  max-width: none;
+}
+
+.article-body.prose blockquote p + p {
+  margin-top: var(--space-4);
+}
+
+.article-body.prose blockquote p:first-child {
+  margin-top: 0;
+}
+
+.article-body.prose hr {
+  margin: var(--space-12) 0;
+  border: 0;
+  border-top: 1px solid var(--border);
+}
+
+.article-body.prose code {
+  font-size: 0.925em;
+  padding: 0.12em 0.35em;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--fg) 6%, transparent);
+}
+
+.article-body.prose pre {
+  margin: var(--space-6) 0;
+  padding: var(--space-4) var(--space-6);
+  overflow-x: auto;
+  font-size: var(--size-sm);
+  line-height: var(--line-normal);
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--fg) 5%, var(--bg));
+}
+
+.article-body.prose pre code {
+  padding: 0;
+  background: none;
+  font-size: inherit;
+}
+
+@media (prefers-color-scheme: dark) {
+  .article-body.prose li {
+    color: var(--fg);
+  }
+
+  .article-body.prose code {
+    background: color-mix(in srgb, var(--fg) 10%, transparent);
+  }
+
+  .article-body.prose pre {
+    background: color-mix(in srgb, var(--fg) 8%, var(--bg));
+  }
 }
 
 /* Match homepage hero links when prose contains anchors */

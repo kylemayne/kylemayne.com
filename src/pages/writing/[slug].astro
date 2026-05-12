@@ -26,6 +26,13 @@ const nextSlug = await getNextArticleSlug(slug);
 const description =
   article.data.description ?? article.body.slice(0, 160) ?? '';
 
+const pubDate = article.data.pubDate;
+const pubDateLabel = new Intl.DateTimeFormat('en-GB', {
+  month: 'long',
+  year: 'numeric',
+}).format(pubDate);
+const pubDateISO = pubDate.toLocaleDateString('en-CA');
+
 const { Content } = await article.render();
 ---
 
@@ -33,6 +40,9 @@ const { Content } = await article.render();
   <article class="article">
     <header class="article-header">
       <h1 class="article-title">{article.data.title}</h1>
+      <p class="article-meta">
+        <time datetime={pubDateISO}>{pubDateLabel}</time>
+      </p>
     </header>
 
     <div class="article-body prose">
