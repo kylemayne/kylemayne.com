@@ -56,7 +56,22 @@ const jsonLd = {
     <meta name="twitter:image:alt" content="Portrait of Kyle Mayne" />
     {
       isHome && (
-        <link rel="preload" as="image" href="/images/kyle.png" fetchpriority="high" />
+        <>
+          <link
+            rel="preload"
+            as="image"
+            href="/images/kyle-dark.png"
+            media="(prefers-color-scheme: dark)"
+            fetchpriority="high"
+          />
+          <link
+            rel="preload"
+            as="image"
+            href="/images/kyle.png"
+            media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
+            fetchpriority="high"
+          />
+        </>
       )
     }
     <script type="application/ld+json">

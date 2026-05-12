@@ -10,16 +10,22 @@ import Layout from '../layouts/Layout.astro';
     <div class="home-content">
       <div class="home-hero">
         <div class="home-hero-image">
-          <img
-            class="home-photo"
-            src="/images/kyle.png"
-            width="1024"
-            height="1024"
-            alt="Portrait of Kyle Mayne"
-            loading="eager"
-            fetchpriority="high"
-            decoding="async"
-          />
+          <picture>
+            <source
+              media="(prefers-color-scheme: dark)"
+              srcset="/images/kyle-dark.png"
+            />
+            <img
+              class="home-photo"
+              src="/images/kyle.png"
+              width="1024"
+              height="1024"
+              alt="Portrait of Kyle Mayne"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </picture>
         </div>
 
         <div class="home-hero-text">
