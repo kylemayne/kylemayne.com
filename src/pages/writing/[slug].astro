@@ -1,9 +1,13 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import { getArticle, getNextArticleSlug } from '../../data/writing';
 
 export async function getStaticPaths() {
-  return [];
+  const articles = await getCollection('writing');
+  return articles.map((article) => ({
+    params: { slug: article.slug },
+  }));
 }
 
 const { slug } = Astro.params;

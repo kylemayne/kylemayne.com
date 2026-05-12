@@ -1,5 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import { writingGroupedByYear } from '../../data/writing';
+
+const groups = await writingGroupedByYear();
 ---
 
 <Layout
@@ -9,6 +12,30 @@ import Layout from '../../layouts/Layout.astro';
   <h1>Writing</h1>
 
   <div class="page-section">
-    <p class="writing-empty">Coming soon.</p>
+    {
+      groups.length === 0 ? (
+        <p class="writing-empty">Coming soon.</p>
+      ) : (
+        groups.map(({ year, articles }) => (
+          <section class="writing-year" aria-labelledby={`writing-year-${year}`}>
+            <h2 class="writing-year-heading" id={`writing-year-${year}`}>
+              {year}
+            </h2>
+            <ul class="writing-list">
+              {articles.map((article) => (
+                <li>
+                  <a class="writing-list-link" href={`/writing/${article.slug}/`}>
+                    <span class="writing-list-title">{article.data.title}</span>
+                    {article.data.description ? (
+                      <span class="writing-list-desc">{article.data.description}</span>
+                    ) : null}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      )
+    }
   </div>
 </Layout>
