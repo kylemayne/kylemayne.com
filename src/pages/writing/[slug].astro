@@ -36,7 +36,7 @@ const pubDateISO = pubDate.toLocaleDateString('en-CA');
 const { Content } = await article.render();
 ---
 
-<Layout title={article.data.title} description={description}>
+<Layout title={article.data.title} description={description} bodyClass="page-article">
   <article class="article">
     <header class="article-header">
       <h1 class="article-title">{article.data.title}</h1>

@@ -1718,3 +1718,213 @@ a:hover {
     color: var(--link-hover);
   }
 }
+
+/* ─── Print: /work and writing articles ──────────────────────── */
+@media print {
+  @page {
+    margin: 1.25cm 1.5cm;
+  }
+
+  html:has(body.page-work),
+  html:has(body.page-article) {
+    font-size: 11pt;
+    scroll-behavior: auto;
+  }
+
+  body.page-work,
+  body.page-article {
+    color-scheme: light;
+    --bg: #ffffff;
+    --fg: #1c1b19;
+    --fg-muted: #4a4843;
+    --fg-subtle: #6b6860;
+    --border: #c8c5bc;
+    --link: #1c1b19;
+    --link-hover: #1c1b19;
+    --fg-body: #2e2e2e;
+    --link-strong: #111111;
+    background: #ffffff !important;
+    color: var(--fg) !important;
+  }
+
+  body.page-work .skip-link,
+  body.page-work .nav-dock,
+  body.page-work .nav-noscript,
+  body.page-article .skip-link,
+  body.page-article .nav-dock,
+  body.page-article .nav-noscript {
+    display: none !important;
+  }
+
+  body.page-work .site-wrapper,
+  body.page-article .site-wrapper {
+    display: block;
+    min-height: auto;
+    padding: 0 !important;
+    align-items: stretch;
+  }
+
+  body.page-work .site-content,
+  body.page-article .site-content {
+    flex: none;
+    width: 100%;
+    max-width: none;
+  }
+
+  body.page-work a,
+  body.page-article a {
+    color: var(--fg) !important;
+    text-decoration-color: var(--border) !important;
+  }
+
+  /* /work */
+  body.page-work .site-content::before {
+    content: 'Kyle Mayne · kylemayne.com/work';
+    display: block;
+    margin-bottom: var(--space-6);
+    font-size: 9pt;
+    color: var(--fg-muted);
+    letter-spacing: 0.02em;
+  }
+
+  body.page-work h1,
+  body.page-work h2,
+  body.page-work h3,
+  body.page-work p,
+  body.page-work .role-org,
+  body.page-work .role-title,
+  body.page-work .role-dates,
+  body.page-work .expertise-topic,
+  body.page-work .expertise-detail,
+  body.page-work .edu-institution,
+  body.page-work .edu-detail {
+    color: var(--fg) !important;
+  }
+
+  body.page-work p,
+  body.page-work .role-dates,
+  body.page-work .role-title,
+  body.page-work .expertise-detail,
+  body.page-work .edu-detail {
+    color: var(--fg-muted) !important;
+  }
+
+  body.page-work .page-section {
+    margin-top: var(--space-8);
+  }
+
+  body.page-work .page-section + .page-section {
+    margin-top: var(--space-12);
+  }
+
+  body.page-work .page-section h2 {
+    break-after: avoid;
+  }
+
+  body.page-work .role-list li,
+  body.page-work .expertise-list li,
+  body.page-work .edu-list li {
+    break-inside: avoid;
+  }
+
+  body.page-work .role-list li {
+    display: grid;
+    grid-template-columns: 10rem 9rem 1fr;
+    gap: 0 var(--space-4);
+  }
+
+  /* Writing articles */
+  body.page-article .site-content::before {
+    content: 'Kyle Mayne · kylemayne.com/writing';
+    display: block;
+    margin-bottom: var(--space-4);
+    font-size: 9pt;
+    color: var(--fg-muted);
+    letter-spacing: 0.02em;
+  }
+
+  body.page-article .article {
+    max-width: none;
+  }
+
+  body.page-article .article-footer-nav {
+    display: none !important;
+  }
+
+  body.page-article .article-title {
+    font-size: 16pt;
+    letter-spacing: -0.02em;
+    color: var(--fg) !important;
+    break-after: avoid;
+  }
+
+  body.page-article .article-header {
+    margin-bottom: var(--space-6);
+    break-after: avoid;
+  }
+
+  body.page-article .article-meta {
+    color: var(--fg-muted) !important;
+    font-size: 10pt;
+  }
+
+  body.page-article .article-body.prose p,
+  body.page-article .article-body.prose li {
+    color: var(--fg-body) !important;
+    orphans: 3;
+    widows: 3;
+  }
+
+  body.page-article .article-body.prose > h2,
+  body.page-article .article-body.prose > h3 {
+    color: var(--fg) !important;
+    break-after: avoid;
+    break-inside: avoid;
+  }
+
+  body.page-article .article-body.prose > h2 {
+    margin-top: var(--space-8);
+  }
+
+  body.page-article .article-body.prose blockquote {
+    border-left-color: var(--border) !important;
+    color: var(--fg-muted) !important;
+    break-inside: avoid;
+  }
+
+  body.page-article .article-body.prose blockquote p {
+    color: var(--fg-muted) !important;
+  }
+
+  body.page-article .article-body.prose hr {
+    border-top-color: var(--border) !important;
+    break-after: avoid;
+  }
+
+  body.page-article .article-body.prose pre {
+    border-color: var(--border) !important;
+    background: #f5f4f1 !important;
+    break-inside: avoid;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  body.page-article .article-body.prose code {
+    background: #f0efec !important;
+    color: var(--fg) !important;
+  }
+
+  body.page-article .article-body.prose a {
+    text-decoration: underline !important;
+    text-decoration-color: var(--border) !important;
+  }
+
+  /* Show URLs for external links when printing */
+  body.page-article .article-body.prose a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 8.5pt;
+    font-weight: normal;
+    color: var(--fg-muted);
+    word-break: break-all;
+  }
+}

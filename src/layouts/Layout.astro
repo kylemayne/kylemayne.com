@@ -5,11 +5,14 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
+  /** Applied to <body> for page-specific styles (e.g. print layouts) */
+  bodyClass?: string;
 }
 
 const {
   title,
   description = 'Kyle Mayne: Principal Product Designer and Design Lead',
+  bodyClass,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -85,7 +88,7 @@ const jsonLd = {
       {JSON.stringify(jsonLd)}
     </script>
   </head>
-  <body>
+  <body class:list={[bodyClass]}>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <div class="site-wrapper">
       <main id="main-content" class="site-content" tabindex="-1">
