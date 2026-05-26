@@ -78,6 +78,13 @@
 
   /* Work + Writing (+ article pages): space above page content */
   --work-writing-padding-top: 136px;
+
+  /* Homepage: gap between fixed Menu pill and hero when content sits below it */
+  --home-below-nav-gap: 40px;
+  --home-clear-below-nav: calc(
+    var(--nav-dock-inset-left) + var(--nav-toggle-min-height) +
+      var(--home-below-nav-gap)
+  );
 }
 
 @media (prefers-color-scheme: dark) {
@@ -1572,10 +1579,18 @@ a:hover {
   animation-delay: 210ms;
 }
 
-@media (max-width: 940px) {
+@media (max-width: 940px) and (min-width: 601px) {
+  /* Hero drops below fixed nav: exactly 40px under the Menu pill */
+  .site-wrapper:has(.home-container) {
+    justify-content: flex-start;
+    padding-top: calc(
+      var(--home-clear-below-nav) + env(safe-area-inset-top, 0px)
+    );
+  }
+
   .home-hero {
     gap: 48px;
-    margin-top: var(--space-12);
+    margin-top: 0;
     margin-bottom: var(--space-12);
   }
 
