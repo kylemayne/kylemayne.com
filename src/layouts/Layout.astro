@@ -7,12 +7,21 @@ interface Props {
   description?: string;
   /** Applied to <body> for page-specific styles (e.g. print layouts) */
   bodyClass?: string;
+  /** Open Graph type; use `article` on writing posts */
+  ogType?: 'website' | 'article';
+  /** ISO 8601 publish time for `article:published_time` */
+  articlePublishedTime?: string;
+  /** Overrides default Person JSON-LD (e.g. Article on writing posts) */
+  structuredData?: Record<string, unknown>;
 }
 
 const {
   title,
   description = 'Kyle Mayne: Principal Product Designer and Design Lead',
   bodyClass,
+  ogType = 'website',
+  articlePublishedTime,
+  structuredData,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -21,8 +30,9 @@ const pageTitleFull = title === 'Kyle Mayne' ? title : `${title} - Kyle Mayne`;
 const ogImageURL = new URL('/images/kyle.png', site);
 const rssFeedURL = new URL('/rss.xml', site);
 const isHome = Astro.url.pathname === '/';
+const isArticle = ogType === 'article';
 
-const jsonLd = {
+const defaultPersonJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: 'Kyle Mayne',
@@ -31,6 +41,8 @@ const jsonLd = {
   jobTitle: 'Principal Product Designer and Design Lead',
   sameAs: ['https://linkedin.com/in/kylemayne', 'https://twitter.com/kylemayne'],
 };
+
+const jsonLd = structuredData ?? defaultPersonJsonLd;
 ---
 
 <!doctype html>
@@ -51,7 +63,7 @@ const jsonLd = {
       title="Kyle Mayne — Writing"
       href={rssFeedURL.href}
     />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonicalURL.href} />
     <meta property="og:site_name" content="Kyle Mayne" />
     <meta property="og:title" content={pageTitleFull} />
@@ -59,11 +71,22 @@ const jsonLd = {
     <meta property="og:image" content={ogImageURL.href} />
     <meta property="og:image:width" content="1024" />
     <meta property="og:image:height" content="1024" />
+    {
+      isArticle && articlePublishedTime && (
+        <>
+          <meta property="article:published_time" content={articlePublishedTime} />
+          <meta property="article:author" content="Kyle Mayne" />
+        </>
+      )
+    }
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={pageTitleFull} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL.href} />
-    <meta name="twitter:image:alt" content="Portrait of Kyle Mayne" />
+    <meta
+      name="twitter:image:alt"
+      content={isArticle ? title : 'Portrait of Kyle Mayne'}
+    />
     {
       isHome && (
         <>
@@ -84,9 +107,10 @@ const jsonLd = {
         </>
       )
     }
-    <script type="application/ld+json">
-      {JSON.stringify(jsonLd)}
-    </script>
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(jsonLd)}
+    />
   </head>
   <body class:list={[bodyClass]}>
     <a href="#main-content" class="skip-link">Skip to content</a>

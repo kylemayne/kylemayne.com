@@ -32,11 +32,44 @@ const pubDateLabel = new Intl.DateTimeFormat('en-GB', {
   year: 'numeric',
 }).format(pubDate);
 const pubDateISO = pubDate.toLocaleDateString('en-CA');
+const articlePublishedTime = pubDate.toISOString();
+
+const site = Astro.site ?? new URL('https://kylemayne.com/');
+const articleUrl = new URL(`/writing/${slug}/`, site);
+
+const articleJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: article.data.title,
+  description,
+  datePublished: pubDateISO,
+  author: {
+    '@type': 'Person',
+    name: 'Kyle Mayne',
+    url: site.href,
+  },
+  publisher: {
+    '@type': 'Person',
+    name: 'Kyle Mayne',
+  },
+  image: new URL('/images/kyle.png', site).href,
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': articleUrl.href,
+  },
+};
 
 const { Content } = await article.render();
 ---
 
-<Layout title={article.data.title} description={description} bodyClass="page-article">
+<Layout
+  title={article.data.title}
+  description={description}
+  bodyClass="page-article"
+  ogType="article"
+  articlePublishedTime={articlePublishedTime}
+  structuredData={articleJsonLd}
+>
   <article class="article">
     <header class="article-header">
       <h1 class="article-title">{article.data.title}</h1>
