@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Page not found"
+  description="This page is not on kylemayne.com. Return home or browse work and writing."
+  robots="noindex"
+>
+  <div class="home-container">
+    <div class="home-content">
+      <div class="home-hero-text not-found">
+        <p class="not-found-code" aria-hidden="true">404</p>
+        <h1>Page not found</h1>
+        <div class="prose">
+          <p>
+            Nothing lives at this address. The link may be outdated, or the URL
+            mistyped.
+          </p>
+        </div>
+        <div class="intro-links">
+          <a href="/">Home</a>
+          <a href="/work/">Work</a>
+          <a href="/writing/">Writing</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

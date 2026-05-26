@@ -268,7 +268,7 @@ a:hover {
   }
 }
 
-/* Homepage: avoid extra scroll; match bottom padding to top (no arbitrary +3rem) */
+/* Homepage + 404: avoid extra scroll; match bottom padding to top (no arbitrary +3rem) */
 .site-wrapper:has(.home-container) {
   padding-bottom: calc(var(--space-12) + env(safe-area-inset-bottom, 0px));
 }
@@ -1021,6 +1021,21 @@ a:hover {
 
 .prose p:first-child {
   margin-top: var(--space-6);
+}
+
+/* ─── 404 (uses .home-container + .home-hero-text from homepage) ─ */
+.not-found-code {
+  font-family: var(--font-system);
+  font-size: var(--size-sm);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-subtle);
+  margin-bottom: var(--space-3);
+}
+
+.home-hero-text.not-found .prose p {
+  max-width: 36rem;
 }
 
 /* ─── Writing ─────────────────────────────────────────────────── */

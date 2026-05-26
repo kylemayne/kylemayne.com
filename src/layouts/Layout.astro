@@ -13,6 +13,8 @@ interface Props {
   articlePublishedTime?: string;
   /** Overrides default Person JSON-LD (e.g. Article on writing posts) */
   structuredData?: Record<string, unknown>;
+  /** e.g. `noindex` on 404 */
+  robots?: string;
 }
 
 const {
@@ -22,6 +24,7 @@ const {
   ogType = 'website',
   articlePublishedTime,
   structuredData,
+  robots,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -54,6 +57,7 @@ const jsonLd = structuredData ?? defaultPersonJsonLd;
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
     <meta name="description" content={description} />
+    {robots && <meta name="robots" content={robots} />}
     <link rel="canonical" href={canonicalURL} />
     <title>{pageTitleFull}</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
