@@ -1019,6 +1019,32 @@ a:hover {
 }
 
 /* ─── Writing ─────────────────────────────────────────────────── */
+.writing-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3) var(--space-6);
+}
+
+.writing-rss {
+  font-family: var(--font-system);
+  font-size: var(--size-sm);
+  color: var(--fg-muted);
+}
+
+.writing-rss a {
+  color: var(--fg-muted);
+  text-decoration: none;
+  text-underline-offset: 3px;
+}
+
+.writing-rss a:hover {
+  color: var(--fg);
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+}
+
 .writing-year + .writing-year {
   margin-top: var(--space-12);
 }
