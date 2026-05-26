@@ -258,7 +258,8 @@ a:hover {
 
   /* Pages with a leading H1 or article body: top-align with fixed nav */
   .site-wrapper:has(.article),
-  .site-wrapper:has(.site-content > h1:first-child) {
+  .site-wrapper:has(.site-content > h1:first-child),
+  .site-wrapper:has(.writing-header) {
     justify-content: flex-start;
   }
 
@@ -274,14 +275,16 @@ a:hover {
 
 /* Work, Writing index, and writing articles: fixed top band above content */
 .site-wrapper:has(.article),
-.site-wrapper:has(.site-content > h1:first-child) {
+.site-wrapper:has(.site-content > h1:first-child),
+.site-wrapper:has(.writing-header) {
   padding-top: calc(
     var(--work-writing-padding-top) + env(safe-area-inset-top, 0px)
   );
 }
 
 .site-wrapper:has(.article) .site-content,
-.site-wrapper:has(.site-content > h1:first-child) .site-content {
+.site-wrapper:has(.site-content > h1:first-child) .site-content,
+.site-wrapper:has(.writing-header) .site-content {
   scroll-margin-top: calc(
     var(--work-writing-padding-top) + env(safe-area-inset-top, 0px) + 12px
   );
@@ -328,12 +331,14 @@ a:hover {
   }
 
   .site-wrapper:has(.article),
-  .site-wrapper:has(.site-content > h1:first-child) {
+  .site-wrapper:has(.site-content > h1:first-child),
+  .site-wrapper:has(.writing-header) {
     padding-top: calc(var(--space-12) + env(safe-area-inset-top, 0px));
   }
 
   .site-wrapper:has(.article) .site-content,
-  .site-wrapper:has(.site-content > h1:first-child) .site-content {
+  .site-wrapper:has(.site-content > h1:first-child) .site-content,
+  .site-wrapper:has(.writing-header) .site-content {
     scroll-margin-top: var(--nav-mobile-scroll-top-offset);
   }
 }
@@ -1034,9 +1039,17 @@ a:hover {
 }
 
 .writing-rss a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
   color: var(--fg-muted);
   text-decoration: none;
   text-underline-offset: 3px;
+}
+
+.writing-rss-icon {
+  flex-shrink: 0;
+  color: currentColor;
 }
 
 .writing-rss a:hover {
@@ -1420,42 +1433,6 @@ a:hover {
   font-family: var(--font-system);
   font-size: var(--size-sm);
   border-top: 1px solid var(--border);
-}
-
-/* ─── Skills inline ──────────────────────────────────────────── */
-.skills-text {
-  font-family: var(--font-system);
-  font-size: var(--size-sm);
-  color: var(--fg-muted);
-  line-height: var(--line-loose);
-  max-width: var(--content-width);
-}
-
-/* ─── Find me list ───────────────────────────────────────────── */
-.find-list {
-  list-style: none;
-}
-
-.find-list li {
-  padding: var(--space-3) 0;
-  border-bottom: 1px solid var(--border);
-  font-family: var(--font-system);
-  font-size: var(--size-sm);
-}
-
-.find-list li:first-child {
-  border-top: 1px solid var(--border);
-}
-
-.find-list a {
-  text-decoration: none;
-  color: var(--fg);
-}
-
-.find-list a:hover {
-  color: var(--fg-muted);
-  text-decoration: underline;
-  text-underline-offset: 3px;
 }
 
 /* ─── Education list ─────────────────────────────────────────── */
