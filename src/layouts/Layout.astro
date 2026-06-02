@@ -15,6 +15,11 @@ interface Props {
   structuredData?: Record<string, unknown>;
   /** e.g. `noindex` on 404 */
   robots?: string;
+  /** Path under public/ (default: portrait) */
+  ogImage?: string;
+  ogImageWidth?: number;
+  ogImageHeight?: number;
+  twitterCard?: 'summary' | 'summary_large_image';
 }
 
 const {
@@ -25,12 +30,16 @@ const {
   articlePublishedTime,
   structuredData,
   robots,
+  ogImage = '/images/kyle.png',
+  ogImageWidth = 1024,
+  ogImageHeight = 1024,
+  twitterCard = 'summary',
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const site = Astro.site ?? new URL('https://kylemayne.com/');
 const pageTitleFull = title === 'Kyle Mayne' ? title : `${title} - Kyle Mayne`;
-const ogImageURL = new URL('/images/kyle.png', site);
+const ogImageURL = new URL(ogImage, site);
 const rssFeedURL = new URL('/rss.xml', site);
 const isHome = Astro.url.pathname === '/';
 const isArticle = ogType === 'article';
@@ -73,8 +82,8 @@ const jsonLd = structuredData ?? defaultPersonJsonLd;
     <meta property="og:title" content={pageTitleFull} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImageURL.href} />
-    <meta property="og:image:width" content="1024" />
-    <meta property="og:image:height" content="1024" />
+    <meta property="og:image:width" content={String(ogImageWidth)} />
+    <meta property="og:image:height" content={String(ogImageHeight)} />
     {
       isArticle && articlePublishedTime && (
         <>
@@ -83,13 +92,19 @@ const jsonLd = structuredData ?? defaultPersonJsonLd;
         </>
       )
     }
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content={twitterCard} />
     <meta name="twitter:title" content={pageTitleFull} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL.href} />
     <meta
       name="twitter:image:alt"
-      content={isArticle ? title : 'Portrait of Kyle Mayne'}
+      content={
+        isArticle && twitterCard === 'summary_large_image'
+          ? `${title} — Kyle Mayne`
+          : isArticle
+            ? title
+            : 'Portrait of Kyle Mayne'
+      }
     />
     {
       isHome && (

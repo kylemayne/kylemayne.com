@@ -52,7 +52,7 @@ const articleJsonLd = {
     '@type': 'Person',
     name: 'Kyle Mayne',
   },
-  image: new URL('/images/kyle.png', site).href,
+  image: new URL(`/og/writing/${slug}.png`, site).href,
   mainEntityOfPage: {
     '@type': 'WebPage',
     '@id': articleUrl.href,
@@ -69,6 +69,10 @@ const { Content } = await article.render();
   ogType="article"
   articlePublishedTime={articlePublishedTime}
   structuredData={articleJsonLd}
+  ogImage={`/og/writing/${slug}.png`}
+  ogImageWidth={1200}
+  ogImageHeight={630}
+  twitterCard="summary_large_image"
 >
   <article class="article">
     <header class="article-header">
