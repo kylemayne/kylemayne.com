@@ -24,7 +24,6 @@ export async function GET(context) {
     items: articles.map((article) => ({
       title: article.data.title,
       author: AUTHOR,
-      pubDate: article.data.pubDate,
       description:
         article.data.description ?? article.body.slice(0, 300).trim(),
       link: `/writing/${article.slug}/`,
