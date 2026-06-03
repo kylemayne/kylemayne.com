@@ -12,7 +12,7 @@ I get it. But I think that framing misses something important.
 
 Here's what got buried in the coverage: building AI into a product is genuinely expensive. A traditional SaaS company might spend 10 to 20 percent of revenue on cost of goods. An AI-first SaaS can see 40 to 50 percent eaten up by inference compute, model hosting, and data costs. Every smart suggestion, every generated summary, every AI-assisted action costs tokens. And until recently, the vendor was picking up that tab.
 
-When someone connects Claude Code or Codex to a SaaS product, something quietly shifts. The token costs land on the user, not the platform. The SaaS company still gets the action, the workflow, the data. It just doesn't get the bill anymore. That's not a pricing tweak. It's a structural change to the unit economics of the whole category.
+When someone connects Claude or ChaptGPT to a SaaS product, something quietly shifts. The token costs land on the user, not the platform. The SaaS company still gets the action, the workflow, the data. It just doesn't get the bill anymore. That's not a pricing tweak. It's a structural change to the unit economics of the whole category.
 
 I'll admit the first time I thought this through properly it felt almost too clean. Like the kind of insight that sounds right but probably has a catch. I'm still looking for the catch.
 
