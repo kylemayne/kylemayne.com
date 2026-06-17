@@ -3,9 +3,11 @@
   "type": "module",
   "version": "1.0.0",
   "scripts": {
+    "check": "node scripts/check-build-deps.mjs",
+    "predev": "node scripts/check-build-deps.mjs",
     "dev": "astro dev",
     "og": "node scripts/generate-og-images.mjs",
-    "prebuild": "node scripts/generate-og-images.mjs",
+    "prebuild": "node scripts/check-build-deps.mjs && node scripts/generate-og-images.mjs",
     "build": "astro build",
     "preview": "astro preview"
   },
