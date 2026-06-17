@@ -1,6 +1,6 @@
 ---
 title: "You Can Outsource a Task. You Can't Outsource Your Learning."
-description: "Nadella's warning that AI commoditises expertise—not tools—means the moat is what you build around the model: data, workflows, and learning loops that compound."
+description: "Nadella's warning that AI commoditises expertise, not tools, means the moat is what you build around the model: data, workflows, and learning loops that compound."
 pubDate: 2026-06-17
 ---
 

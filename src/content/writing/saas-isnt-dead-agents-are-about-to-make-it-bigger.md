@@ -1,6 +1,6 @@
 ---
 title: "SaaS Isn't Dead. Agents Are About to Make It Bigger."
-description: "Agents shift AI costs to users, increase platform activity, and push SaaS toward API-first infrastructure—making oversight and trust the new UX frontier."
+description: "Agents shift AI costs to users, increase platform activity, and push SaaS toward API-first infrastructure, making oversight and trust the new UX frontier."
 pubDate: 2026-05-26
 ---
 
