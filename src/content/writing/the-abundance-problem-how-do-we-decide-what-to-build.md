@@ -1,5 +1,5 @@
 ---
-title: "The Abundance Problem: How Do We Decide What to Build?"
+title: "Deciding What Not to Build"
 description: "As AI lowers the barrier to making products and internal tools, the harder question is no longer how to build, but what deserves to exist."
 pubDate: 2026-05-14
 ---

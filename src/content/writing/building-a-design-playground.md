@@ -1,5 +1,5 @@
 ---
-title: "Building a Design Playground: Empowering Designers with Code"
+title: "Code as a Design Material"
 description: "How Sage’s Design Playground lets designers prototype with real Carbon components, AI-assisted workflows, and branch previews, closing the gap between Figma and shipped software."
 pubDate: 2026-05-12
 ---
