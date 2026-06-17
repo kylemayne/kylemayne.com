@@ -8,13 +8,11 @@ pubDate: 2026-06-17
 
 Satya Nadella posted something on Sunday that took me a few reads to fully land. It's dense in the way CEO writing often is, philosophical enough to sound like a thought piece but specific enough to be a warning.
 
-So let me try to translate it.
-
-The CEO of Microsoft is saying that AI is on track to turn your company's expertise into a commodity. Not your tools. Your knowledge.
+Translated out of CEO-speak, the claim is blunt: AI is on track to turn your company's expertise into a commodity. Not your tools. Your knowledge.
 
 ## Software Used to Amplify People. Now It Absorbs Them.
 
-For a long time, companies bought software to make their people more productive. The tools amplified human work. People created the value. Software was a multiplier, not a replacement.
+For a long time, companies bought software to make their people more productive. The tools amplified the work, but the people created the value; software was a multiplier, not a replacement.
 
 What Nadella is pointing at is different. AI models can absorb what your organisation knows, learn from your data and your workflows, and then make that knowledge available to anyone who pays for access.
 
@@ -23,8 +21,6 @@ The thing you spent years building quietly becomes a standardised service. Your 
 ## Why the Model Isn't the Moat
 
 Nadella's sharpest line is that the model you chose is not your competitive advantage. And if it's the only thing you've built, you're already losing.
-
-It's worth being clear about why.
 
 Every competitor has access to roughly the same frontier models you do. If your entire AI strategy is "we picked a good one and plugged it in", there's nothing stopping a rival making the identical choice next quarter. The model can't be your moat because it isn't yours. It's a subscription.
 
@@ -44,11 +40,11 @@ He's warning that the same pattern could play out with AI. Companies that fail t
 
 The useful framework he offers is the split between human capital and token capital.
 
-Human capital is what your people carry. Judgment, relationships, the ability to spot what matters in a messy situation. Token capital is the AI capability your organisation owns and controls. Not the model you subscribe to. The systems you've built, the data you've shaped, the learning loops you've designed.
+Human capital is what your people carry. Judgment, relationships, the ability to spot what matters in a messy situation. Token capital is the AI capability your organisation actually owns and controls: not the model you subscribe to, but the systems you've built, the data you've shaped, the learning loops you've designed.
 
 One doesn't replace the other. Human expertise becomes more valuable as AI grows, not less, because people set the goals and connect ideas across domains.
 
-The organisations that get this wrong treat AI adoption as a procurement decision. Find the best model, buy seats, deploy. Done.
+The organisations that get this wrong treat AI adoption as a procurement decision: find the best model, buy the seats, deploy.
 
 The problem is that approach builds nothing you own. You get efficiency but no compounding. The model gets smarter in general. You get no smarter in particular.
 
