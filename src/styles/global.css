@@ -324,14 +324,14 @@ a:hover {
 
   /*
    * Home: avoid min-height + flex:1 stretching main—creates “dead air” above bottom padding.
-   * Tighter bottom pad than interior pages: little scroll, just clear the fixed Menu pill.
+   * Tighter top pad for short cover screens (e.g. Duo outer ~580svh); bottom clears Menu pill.
    */
   .site-wrapper:has(.home-container) {
     min-height: unset;
-    padding-top: calc(var(--space-6) + env(safe-area-inset-top, 0px));
+    padding-top: calc(var(--space-4) + env(safe-area-inset-top, 0px));
     padding-bottom: calc(
       env(safe-area-inset-bottom, 0px) + var(--nav-dock-mobile-bottom-gap) +
-        var(--nav-toggle-min-height) + var(--space-6)
+        var(--nav-toggle-min-height) + var(--space-5)
     );
   }
 
@@ -1599,6 +1599,10 @@ a:hover {
   }
 }
 
+/*
+ * Phones + iPhone Duo cover / Split View (~382–385 CSS px):
+ * duo masthead (portrait + name) so the first screen reads as one composition.
+ */
 @media (max-width: 600px) {
   .home-container {
     width: 100%;
@@ -1606,56 +1610,197 @@ a:hover {
   }
 
   .home-hero {
-    flex-direction: column;
-    gap: var(--space-8);
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: var(--space-4);
+    row-gap: var(--space-5);
     margin-top: 0;
-    margin-bottom: var(--space-12);
+    margin-bottom: var(--space-8);
+    align-items: center;
+  }
+
+  .home-hero-image {
+    grid-column: 1;
+    grid-row: 1;
+    width: clamp(5.5rem, 28vw, 6.75rem);
+    max-width: 100%;
+  }
+
+  .home-hero-image .home-photo,
+  .home-photo {
+    border-radius: 18px;
+  }
+
+  /* Let h1 / prose / links participate in the hero grid */
+  .home-hero-text {
+    display: contents;
+    width: auto;
+  }
+
+  .home-hero-text h1 {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    margin-bottom: 0;
+    font-size: clamp(1.375rem, 6.2vw, 1.75rem);
+  }
+
+  .home-hero-text .prose {
+    grid-column: 1 / -1;
+  }
+
+  .home-hero-text .prose p {
+    font-size: clamp(1rem, 4.1vw, 1.25rem);
+  }
+
+  .home-hero-text .prose p + p {
+    margin-top: var(--space-4);
+  }
+
+  .home-hero-text .prose p:first-child {
+    margin-top: 0;
+  }
+
+  .home-hero-text .intro-links {
+    grid-column: 1 / -1;
+    margin-top: var(--space-5);
+    font-size: clamp(1rem, 4.1vw, 1.25rem);
+    gap: var(--space-3) var(--space-4);
+  }
+
+  .home-hero-text .intro-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
+/*
+ * iPhone Duo inner portrait (~669) and similar mid widths:
+ * keep the two-column hero, but pull type/photo down so the short canvas
+ * doesn’t feel like a cropped desktop page.
+ */
+@media (min-width: 601px) and (max-width: 760px) {
+  .home-hero {
+    gap: var(--space-6);
+  }
+
+  .home-hero-image {
+    width: clamp(160px, 28vw, 200px);
+  }
+
+  .home-hero-text h1 {
+    font-size: clamp(1.625rem, 3.4vw, 2rem);
+  }
+
+  .home-hero-text .prose p {
+    font-size: clamp(1.0625rem, 2.4vw, 1.25rem);
+  }
+
+  .intro-links {
+    font-size: clamp(1.0625rem, 2.4vw, 1.25rem);
+    margin-top: var(--space-6);
+  }
+}
+
+/*
+ * iPhone Duo open landscape (~951×585) and similar wide, short canvases:
+ * equal columns with a hinge-safe center gutter so copy doesn’t sit on the fold.
+ */
+@media (min-width: 880px) and (max-width: 1024px) and (max-height: 720px) {
+  .site-wrapper:has(.home-container) {
+    justify-content: center;
+    padding-top: calc(var(--space-6) + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(var(--space-6) + env(safe-area-inset-bottom, 0px));
+  }
+
+  .home-container {
+    width: 100%;
+  }
+
+  .home-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: clamp(2.5rem, 9vw, 5.5rem);
+    align-items: start;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .home-hero-image {
+    width: min(100%, 260px);
+    justify-self: end;
   }
 
   .home-hero-text {
     width: auto;
-  }
-
-  .home-hero-image {
-    width: clamp(180px, 50vw, 220px);
-    max-width: 100%;
+    max-width: 28rem;
+    justify-self: start;
   }
 
   .home-hero-text h1 {
-    font-size: clamp(1.5625rem, 6.75vw, 2.0625rem);
+    font-size: clamp(1.75rem, 3vw, 2.125rem);
   }
 
   .home-hero-text .prose p {
-    font-size: clamp(1rem, 4.55vw, 1.4375rem);
-  }
-
-  /* .intro-links sizing handled later (avoid duplicates) */
-}
-
-@media (max-width: 960px) and (max-height: 520px) and (orientation: landscape) {
-  .home-hero {
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: flex-start;
-    gap: var(--space-6);
-    margin-top: var(--space-4);
-    margin-bottom: var(--space-4);
-  }
-
-  .home-hero-image {
-    width: clamp(140px, 28vw, 200px);
-    flex-shrink: 0;
-    max-width: 40vw;
-  }
-
-  .home-hero-text .prose p {
-    font-size: var(--size-base);
-    line-height: var(--line-loose);
+    font-size: clamp(1.0625rem, 2.1vw, 1.3125rem);
   }
 
   .intro-links {
-    margin-top: var(--space-4);
-    font-size: var(--size-base);
+    margin-top: var(--space-6);
+    font-size: clamp(1.0625rem, 2.1vw, 1.3125rem);
+  }
+}
+
+/* Short landscape (Duo cover landscape ~594×368, phones on their side) */
+@media (max-width: 960px) and (max-height: 520px) and (orientation: landscape) {
+  .site-wrapper:has(.home-container) {
+    padding-top: calc(var(--space-3) + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(var(--space-3) + env(safe-area-inset-bottom, 0px));
+  }
+
+  .home-hero {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    gap: var(--space-5);
+    margin-top: 0;
+    margin-bottom: var(--space-3);
+  }
+
+  .home-hero-text {
+    display: block;
+    width: auto;
+  }
+
+  .home-hero-image {
+    width: clamp(4.5rem, 18vw, 7rem);
+    flex-shrink: 0;
+    max-width: 32vw;
+  }
+
+  .home-hero-text h1 {
+    font-size: var(--size-xl);
+    margin-bottom: var(--space-2);
+  }
+
+  .home-hero-text .prose p {
+    font-size: var(--size-sm);
+    line-height: var(--line-normal);
+  }
+
+  .home-hero-text .prose p + p {
+    margin-top: var(--space-3);
+  }
+
+  .home-hero-text .prose p:first-child {
+    margin-top: 0;
+  }
+
+  .intro-links {
+    margin-top: var(--space-3);
+    font-size: var(--size-sm);
     gap: var(--space-3);
   }
 }
@@ -1667,13 +1812,6 @@ a:hover {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-4);
-}
-
-@media (max-width: 600px) {
-  /* Ensure social links match mobile paragraph scale */
-  .intro-links {
-    font-size: clamp(1rem, 4.55vw, 1.4375rem);
-  }
 }
 
 .intro-links a {
